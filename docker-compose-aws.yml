@@ -1,0 +1,41 @@
+version: '2.1'
+
+services:
+  elasticsearch:
+    image: ${AWS_ECR_HOST}/elk-elasticsearch
+    mem_reservation: 1024000000
+    cpu_shares: 512
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: ecs-cluster-${AWS_ECS_CLUSTER}-elasticsearch
+        awslogs-region: us-east-1
+
+  logstash:
+    image: ${AWS_ECR_HOST}/elk-logstash
+    mem_reservation: 1024000000
+    cpu_shares: 512
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: ecs-cluster-${AWS_ECS_CLUSTER}-logstash
+        awslogs-region: us-east-1
+
+  kibana:
+    image: ${AWS_ECR_HOST}/elk-kibana
+    mem_reservation: 1024000000
+    cpu_shares: 768
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: ecs-cluster-${AWS_ECS_CLUSTER}-kibana
+        awslogs-region: us-east-1
+
+  redis:
+    mem_reservation: 1024000000
+    cpu_shares: 256
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: ecs-cluster-${AWS_ECS_CLUSTER}-redis
+        awslogs-region: us-east-1
